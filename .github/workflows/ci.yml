@@ -41,19 +41,11 @@ jobs:
         run: mvn -B checkstyle:check
         # Enforce coding standards early to fail fast
 
-      - name: Dependency vulnerability scan (OWASP Dependency-Check)
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: |
-          if [ -z "${NVD_API_KEY}" ]; then
-            echo "NVD_API_KEY not set; Dependency-Check may fail due to NVD rate limits/403."
-          fi
-          mvn -B org.owasp:dependency-check-maven:9.1.0:aggregate \
-            -Dformat=HTML \
-            -DfailBuildOnCVSS=7 \
-            -DnvdApiKey=${NVD_API_KEY:-} \
-            -DnvdApiDelay=6000
-        # SCA to block builds when high/critical CVEs are present; NVD API key + delay avoid upstream rate limits
+      - name: Dependency vulnerability scan (SCA)
+        uses: dependency-review-action/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+        # SCA using GitHub Advisory Database; blocks on HIGH/CRITICAL vulnerabilities without NVD API issues
 
       - name: Run unit tests
         run: mvn -B test
