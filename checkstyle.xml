@@ -14,7 +14,6 @@
         <module name="ImportOrder">
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="groups" value="java,javax,org,com"/>
         </module>
         <module name="UnusedImports"/>
