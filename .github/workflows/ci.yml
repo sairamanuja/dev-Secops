@@ -42,7 +42,7 @@ jobs:
         # Enforce coding standards early to fail fast
 
       - name: Dependency vulnerability scan (SCA)
-        uses: dependency-review-action/dependency-review-action@v4
+        uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
         # SCA using GitHub Advisory Database; blocks on HIGH/CRITICAL vulnerabilities without NVD API issues
