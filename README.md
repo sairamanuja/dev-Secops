@@ -61,6 +61,7 @@ curl http://localhost:8080/users
 Set the following repository secrets before running the workflow:
 - `DOCKERHUB_USERNAME` – Docker Hub username.
 - `DOCKERHUB_TOKEN` – Docker Hub access token or password (token recommended).
+- `NVD_API_KEY` – (recommended) NVD API key to keep Dependency-Check updates from failing due to rate limits.
 
 ## Why This Pipeline (Assessment Notes)
 - **Shift-left security:** SAST and SCA run before build/package, preventing vulnerable code from progressing.

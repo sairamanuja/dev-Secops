@@ -42,8 +42,14 @@ jobs:
         # Enforce coding standards early to fail fast
 
       - name: Dependency vulnerability scan (OWASP Dependency-Check)
-        run: mvn -B org.owasp:dependency-check-maven:9.1.0:aggregate -Dformat=HTML -DfailBuildOnCVSS=7
-        # SCA to block builds when high/critical CVEs are present in dependencies
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: |
+          mvn -B org.owasp:dependency-check-maven:9.1.0:aggregate \
+            -Dformat=HTML \
+            -DfailBuildOnCVSS=7 \
+            -DnvdApiKey=${NVD_API_KEY}
+        # SCA to block builds when high/critical CVEs are present; NVD API key avoids upstream rate limits
 
       - name: Run unit tests
         run: mvn -B test
