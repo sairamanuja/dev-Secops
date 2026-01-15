@@ -8,6 +8,10 @@ RUN mvn -B -DskipTests package
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
+
+# Apply all security patches to fix OS-level CVEs
+RUN apk update && apk upgrade --no-cache && rm -rf /var/cache/apk/*
+
 RUN addgroup -S app && adduser -S app -G app
 COPY --from=builder /app/target/devops-ci-api.jar /app/app.jar
 EXPOSE 8080
