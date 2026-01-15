@@ -42,10 +42,15 @@ jobs:
         # Enforce coding standards early to fail fast
 
       - name: Dependency vulnerability scan (SCA)
-        uses: actions/dependency-review-action@v4
+        uses: aquasecurity/trivy-action@0.24.0
         with:
-          fail-on-severity: high
-        # SCA using GitHub Advisory Database; blocks on HIGH/CRITICAL vulnerabilities without NVD API issues
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
+        # SCA using Trivy filesystem scan; blocks on HIGH/CRITICAL dependency vulnerabilities
 
       - name: Run unit tests
         run: mvn -B test
